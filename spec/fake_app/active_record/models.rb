@@ -48,6 +48,10 @@ class Product < ActiveRecord::Base
 end
 class Device < Product
 end
+class ScopedUser < User
+  default_scope -> { page(1) }
+  scope :page3, -> { page(3) }
+end
 
 #migrations
 class CreateAllTables < ActiveRecord::Migration

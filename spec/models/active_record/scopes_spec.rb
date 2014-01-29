@@ -259,4 +259,20 @@ if defined? ActiveRecord
       end
     end
   end
+
+  describe :pagination_in_scope do
+    before do
+      1.upto(100) {|i| User.create! :name => "user#{'%03d' % i}", :age => (i / 10)}
+    end
+
+    context :default_scope do
+      it { ScopedUser.count.should == 25 }
+      it { ScopedUser.respond_to?(:current_page).should be_true } # Failure
+    end
+
+    context :named_scope do
+      it { ScopedUser.page3.count.should == 25 }
+      it { ScopedUser.page3.respond_to?(:current_page).should be_true }
+    end
+  end
 end
